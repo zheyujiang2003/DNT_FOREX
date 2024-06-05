@@ -19,6 +19,23 @@
             color: white;
             padding: 1em;
             text-align: center;
+            position: relative;
+        }
+        .crypto-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #28a745; /* 綠色背景 */
+            color: white; /* 白色文字 */
+            padding: 10px 15px; /* 按鈕內部填充 */
+            border: none; /* 無邊框 */
+            border-radius: 5px; /* 邊框圓角 */
+            cursor: pointer; /* 滑鼠指標變為手型 */
+            font-size: 14px; /* 字體大小 */
+        }
+        .crypto-button:hover {
+            background-color: #218838; /* 當滑鼠懸停時的背景色 */
         }
         main {
             flex: 1;
@@ -118,6 +135,7 @@
 <body>
     <header>
         <h1>DNT 外匯資訊網</h1>
+        <button class="crypto-button" onclick="location.href='https://zheyujiang2003.github.io/DNT_CRYPTO/'">查看加密貨幣匯率</button>
     </header>
     <main>
         <div class="search-container">
@@ -252,7 +270,7 @@
         }
 
         fetchForexRates(); // 初次加載時獲取資料
-        setInterval(fetchForexRates, 60000); // 每分鐘更新一次
+        setInterval(fetchForexRates, 30000); // 每30秒更新一次
     </script>
 </body>
 </html>
