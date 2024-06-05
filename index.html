@@ -140,25 +140,27 @@
 
         async function fetchForexRates(base = 'TWD') {
             try {
-                const apiUrl = `http://apilayer.net/api/live?access_key=cd3f3ef532ed96c219282f67ae7eaaa5&currencies=${commonCurrencies.join(',')}&source=${base}&format=1`;
+                const apiKey = '60229c25609bedf8681a79f7'; // 替換成你的API Key
+                const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${base}`;
                 const response = await fetch(apiUrl);
                 const data = await response.json();
                 
                 const tableBody = document.querySelector('#forexTable tbody');
                 tableBody.innerHTML = ''; // 清空表格
 
-                const rates = data.quotes;
-                for (const [pair, rate] of Object.entries(rates)) {
-                    const currencyCode = pair.replace(base, '');
-                    const currencyName = currencyMap[currencyCode] || currencyCode;
-                    const row = document.createElement('tr');
-                    const currencyCell = document.createElement('td');
-                    currencyCell.textContent = `${currencyName} (${currencyCode})`;
-                    const rateCell = document.createElement('td');
-                    rateCell.textContent = rate;
-                    row.appendChild(currencyCell);
-                    row.appendChild(rateCell);
-                    tableBody.appendChild(row);
+                const rates = data.conversion_rates;
+                for (const currencyCode of commonCurrencies) {
+                    if (currencyCode in rates) {
+                        const currencyName = currencyMap[currencyCode] || currencyCode;
+                        const row = document.createElement('tr');
+                        const currencyCell = document.createElement('td');
+                        currencyCell.textContent = `${currencyName} (${currencyCode})`;
+                        const rateCell = document.createElement('td');
+                        rateCell.textContent = rates[currencyCode];
+                        row.appendChild(currencyCell);
+                        row.appendChild(rateCell);
+                        tableBody.appendChild(row);
+                    }
                 }
             } catch (error) {
                 console.error('無法獲取外匯價格:', error);
@@ -170,25 +172,27 @@
             const currencyCode = Object.keys(currencyMap).find(key => currencyMap[key] === input) || input.toUpperCase();
             if (currencyCode) {
                 try {
-                    const apiUrl = `http://apilayer.net/api/live?access_key=cd3f3ef532ed96c219282f67ae7eaaa5&currencies=${currencyCode}&source=TWD&format=1`;
+                    const apiKey = '60229c25609bedf8681a79f7'; // 替換成你的API Key
+                    const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/TWD`;
                     const response = await fetch(apiUrl);
                     const data = await response.json();
                     
                     const tableBody = document.querySelector('#forexTable tbody');
                     tableBody.innerHTML = ''; // 清空表格
 
-                    const rates = data.quotes;
-                    for (const [pair, rate] of Object.entries(rates)) {
-                        const currencyCode = pair.replace('TWD', '');
+                    const rates = data.conversion_rates;
+                    if (currencyCode in rates) {
                         const currencyName = currencyMap[currencyCode] || currencyCode;
                         const row = document.createElement('tr');
                         const currencyCell = document.createElement('td');
                         currencyCell.textContent = `${currencyName} (${currencyCode})`;
                         const rateCell = document.createElement('td');
-                        rateCell.textContent = rate;
+                        rateCell.textContent = rates[currencyCode];
                         row.appendChild(currencyCell);
                         row.appendChild(rateCell);
                         tableBody.appendChild(row);
+                    } else {
+                        alert('無法獲取該貨幣的匯率');
                     }
                 } catch (error) {
                     console.error('無法獲取外匯價格:', error);
