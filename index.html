@@ -19,13 +19,14 @@
             color: white;
             padding: 1em;
             text-align: center;
-            position: relative;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1em;
+            background-color: #f8f9fa;
         }
         .crypto-button {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
             background-color: #28a745; /* 綠色背景 */
             color: white; /* 白色文字 */
             padding: 10px 15px; /* 按鈕內部填充 */
@@ -116,6 +117,9 @@
             background-color: #0056b3; /* 當滑鼠懸停時的背景色 */
         }
         @media (min-width: 600px) {
+            .crypto-button, .search button, .home-button {
+                width: auto;
+            }
             .search-container {
                 align-items: flex-start;
             }
@@ -135,8 +139,10 @@
 <body>
     <header>
         <h1>DNT 外匯資訊網</h1>
-        <button class="crypto-button" onclick="location.href='https://zheyujiang2003.github.io/DNT_CRYPTO/'">查看加密貨幣匯率</button>
     </header>
+    <div class="button-container">
+        <button class="crypto-button" onclick="location.href='https://zheyujiang2003.github.io/DNT_CRYPTO/'">查看加密貨幣匯率</button>
+    </div>
     <main>
         <div class="search-container">
             <h2 class="search-title">即時外匯價格（基準：台幣）</h2>
