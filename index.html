@@ -10,6 +10,9 @@
             margin: 0;
             padding: 0;
             background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         header {
             background-color: #007bff;
@@ -18,6 +21,7 @@
             text-align: center;
         }
         main {
+            flex: 1;
             padding: 1em;
         }
         table {
@@ -41,9 +45,7 @@
             color: white;
             text-align: center;
             padding: 1em;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            margin-top: auto; /* 將頁腳推到頁面的底部 */
         }
         .search-container {
             margin-top: 1em;
@@ -77,6 +79,24 @@
             max-width: 100px;
             box-sizing: border-box;
             margin-top: 0.5em;
+        }
+        .home-button {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #007bff; /* 藍色背景 */
+            color: white; /* 白色文字 */
+            padding: 15px 20px; /* 按鈕內部填充 */
+            border: none; /* 無邊框 */
+            border-radius: 5px; /* 邊框圓角 */
+            cursor: pointer; /* 滑鼠指標變為手型 */
+            font-size: 16px; /* 字體大小 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 按鈕陰影 */
+            display: none; /* 初始隱藏 */
+        }
+
+        .home-button:hover {
+            background-color: #0056b3; /* 當滑鼠懸停時的背景色 */
         }
         @media (min-width: 600px) {
             .search-container {
@@ -122,6 +142,7 @@
     <footer>
         <p>DNT 誠信 合法合規</p>
     </footer>
+    <button class="home-button" id="homeButton" onclick="goToHome()">回到首頁</button>
     <script>
         const currencyMap = {
             'USD': '美元',
@@ -169,6 +190,9 @@
                         tableBody.appendChild(row);
                     }
                 }
+
+                // 查詢後顯示按鈕
+                document.getElementById('homeButton').style.display = 'block';
             } catch (error) {
                 console.error('無法獲取外匯價格:', error);
                 alert('無法獲取外匯價格，請稍後再試。');
@@ -209,6 +233,9 @@
                     } else {
                         alert('無法獲取該貨幣的匯率');
                     }
+
+                    // 查詢後顯示按鈕
+                    document.getElementById('homeButton').style.display = 'block';
                 } catch (error) {
                     console.error('無法獲取外匯價格:', error);
                     alert('無法獲取外匯價格，請稍後再試。');
@@ -216,6 +243,12 @@
             } else {
                 alert('請輸入有效的貨幣代碼或名稱');
             }
+        }
+
+        function goToHome() {
+            document.getElementById('currencyInput').value = '';
+            fetchForexRates();
+            document.getElementById('homeButton').style.display = 'none'; // 隱藏按鈕
         }
 
         fetchForexRates(); // 初次加載時獲取資料
