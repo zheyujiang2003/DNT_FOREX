@@ -143,8 +143,15 @@
                 const apiKey = '60229c25609bedf8681a79f7'; // 替換成你的API Key
                 const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${base}`;
                 const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 const data = await response.json();
                 
+                if (data.result !== 'success') {
+                    throw new Error(`API error! Message: ${data['error-type']}`);
+                }
+
                 const tableBody = document.querySelector('#forexTable tbody');
                 tableBody.innerHTML = ''; // 清空表格
 
@@ -164,6 +171,7 @@
                 }
             } catch (error) {
                 console.error('無法獲取外匯價格:', error);
+                alert('無法獲取外匯價格，請稍後再試。');
             }
         }
 
@@ -175,8 +183,15 @@
                     const apiKey = '60229c25609bedf8681a79f7'; // 替換成你的API Key
                     const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/TWD`;
                     const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
                     const data = await response.json();
                     
+                    if (data.result !== 'success') {
+                        throw new Error(`API error! Message: ${data['error-type']}`);
+                    }
+
                     const tableBody = document.querySelector('#forexTable tbody');
                     tableBody.innerHTML = ''; // 清空表格
 
@@ -196,6 +211,7 @@
                     }
                 } catch (error) {
                     console.error('無法獲取外匯價格:', error);
+                    alert('無法獲取外匯價格，請稍後再試。');
                 }
             } else {
                 alert('請輸入有效的貨幣代碼或名稱');
